@@ -9,9 +9,16 @@ GLuint vao;
 GLuint program;
 GLuint buffer;
 
-int nrow = 10;
-int ncol = 10;
+int nrow = 1024;
+int ncol = 1024;
 int npoint;
+
+
+float x0 = -1.82;
+float x1 = -1.54;
+float y0 = -0.03;
+float y1 = 0.1;
+float maxiter = 120.0;
 
 
 
@@ -28,7 +35,7 @@ void renderFunction() {
 
 void init () {
 	npoint = nrow * ncol;
-	glPointSize (3);
+	// glPointSize (3);
 	glClearColor (0.0f, 0.0f, 0.0f, 0.0f);
 
 	ShaderInfo shaders[] = {
@@ -58,6 +65,12 @@ void init () {
 	glEnableVertexAttribArray (0);
 
 
+	glUniform1f (glGetUniformLocation(program, "x0"), x0);
+	glUniform1f (glGetUniformLocation(program, "x1"), x1);
+	glUniform1f (glGetUniformLocation(program, "y0"), y0);
+	glUniform1f (glGetUniformLocation(program, "y1"), y1);
+	glUniform1f (glGetUniformLocation(program, "maxiter"), maxiter);
+
 
 	delete [] p;
 }
@@ -67,7 +80,7 @@ int main(int argc, char *argv[]) {
 	glutInit(&argc, argv);
 	// init display con DEPTH Y RGBA
 	glutInitDisplayMode (GLUT_RGBA);
-	glutInitWindowSize(512,512);
+	glutInitWindowSize(1024,1024);
 	glutInitWindowPosition(500, 100);
 
 

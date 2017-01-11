@@ -7,20 +7,18 @@
 layout (location = 0) in vec2 vPosition;
 
 
+uniform float x0;
+uniform float x1;
+uniform float y0;
+uniform float y1;
+uniform float maxiter;
 
-out float color;
+out vec4 color;
 
 void main () {
-	float x0 = -1.82;
-	float x1 = -1.54;
-	float y0 = -0.2;
-	float y1 = 0.1;
-	int width = 512;
-	int height = 512;
-	int maxiter = 80;
 
-	float x = x0 + (vPosition.x+1.0)/2.0;
-	float y = y0 + (vPosition.y+1.0)/2.0;
+	float x = x0 + (vPosition.x+1.0)*(x1-x0)/(2.0);
+	float y = -(y0 + (vPosition.y+1.0)*(y1-y0)/(2.0));
 	float zx = 0.0;
 	float zy = 0.0;
 	float temp;
@@ -31,8 +29,9 @@ void main () {
 		zx = temp;
 		k++;
 	}
-	color = cos(k);
 
 	gl_Position = vec4 (vPosition, 0.0, 1.0);
+	color = vec4(0.6*(sin(0.05*k)+1.0), 1.0-k/maxiter, 1.0-k/maxiter, 1.0);
 	// color = 1.0;
+	// color = vec4 (x, y, 1, 1);
 }

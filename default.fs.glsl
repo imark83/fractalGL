@@ -5,10 +5,10 @@ precision highp float; 		// Defines precision for
 
 
 
-in float color;
+in vec4 color;
 
 out vec4 fColor;
 
 void main () {
-	fColor = vec4(1.0, 1.0 ,1.0, 1);
+	fColor = color;
 }
