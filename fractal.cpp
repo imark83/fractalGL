@@ -2,15 +2,15 @@
 #include <GL/glut.h>
 #include <iostream>
 
-#include "loadShaders.h"
+#include <loadShaders.h>
 
 
 GLuint vao;
 GLuint program;
 GLuint buffer;
 
-int nrow = 512;
-int ncol = 512;
+int nrow = 10;
+int ncol = 10;
 int npoint;
 
 
@@ -18,8 +18,6 @@ int npoint;
 
 void renderFunction() {
 	glClear (GL_COLOR_BUFFER_BIT);
-	glBindVertexArray (vao);
-	glBindBuffer (GL_ARRAY_BUFFER, buffer);
 	glDrawArrays(GL_POINTS, 0, npoint);
 	glFlush ();
 	std::cout << "vao = "  << vao << std::endl;
@@ -42,19 +40,16 @@ void init () {
 
 	GLfloat *p = new GLfloat[2*npoint];
 	for (int i=0; i<nrow; ++i) for (int j=0; j<ncol; ++j) {
-		p[ncol*i+j] = (1.0*i)/((GLfloat) nrow); p[ncol*i+j] = (1.0*j)/((GLfloat) ncol);
+		p[2*(ncol*i+j)] = (2.0*i)/((GLfloat) nrow)-1.0;
+		p[2*(ncol*i+j)+1] = (2.0*j)/((GLfloat) ncol)-1.0;
 	}
+
 
 
 	glGenVertexArrays (1, &vao);
 	glBindVertexArray (vao);
 	glGenBuffers (1, &buffer);
 	glBindBuffer (GL_ARRAY_BUFFER, buffer);
-
-	for (int i=0; i<nrow; ++i) for (int j=0; j<ncol; ++j) {
-		p[2*(ncol*i+j)] = (2.0*i)/((GLfloat) nrow) - 1.0; p[2*(ncol*i+j)+1] = (2.0*j)/((GLfloat) ncol) - 1.0;
-	}
-
 
 	glBufferData (GL_ARRAY_BUFFER, npoint*2*sizeof (GLfloat), p, GL_STATIC_DRAW);
 

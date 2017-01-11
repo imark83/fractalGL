@@ -10,7 +10,7 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GL/freeglut.h>
-#include "loadShaders.h"
+#include <loadShaders.h>
 
 //----------------------------------------------------------------------------
 
@@ -67,7 +67,7 @@ GLuint loadShaders(ShaderInfo* shaders) {
 		free ((char*) source);
 
         	glCompileShader( shader );
-	
+
 		GLint compiled;
 		glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
 		if (!compiled) {
@@ -83,7 +83,7 @@ GLuint loadShaders(ShaderInfo* shaders) {
 	        entry++;
 	}
 
-    
+
 	glLinkProgram( program );
 
 	GLint linked;
@@ -99,7 +99,7 @@ GLuint loadShaders(ShaderInfo* shaders) {
 			glDeleteShader( entry->shader );
 			entry->shader = 0;
 		}
-        
+
 		return 0;
 	}
 
