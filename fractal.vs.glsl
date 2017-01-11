@@ -5,17 +5,18 @@
 // precision highp float; // Defines precision for float and float-derived (vector/matrix) types.
 
 layout (location = 0) in vec2 vPosition;
-layout (location = 1) in vec2 vUV;
 
 
+uniform float x0;
+uniform float x1;
+uniform float y0;
+uniform float y1;
 
-uniform mat4 model;
-uniform float depth;
-
-out vec2 UV;
+out float color;
 
 void main () {
-	gl_Position = model*vec4 (vPosition, depth, 1.0);
-	UV = vUV;
-	// color = gl_Position+0.5;
+	gl_Position = vec4 (vPosition, 0.0, 1.0);
+	float x = 1;
+
+	color = 1.0;
 }
