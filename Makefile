@@ -3,7 +3,7 @@
 
 CC = g++
 # OBJECTS = coreLoop.o carreterometro.o
-TARGETS = fractal.cpp loadShaders.cpp
+TARGETS = main.cpp loadShaders.cpp fractal.cpp
 LIBS = -lGL -lGLEW -lglut
 CFLAGS = -g -I include
 

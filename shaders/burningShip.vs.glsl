@@ -7,11 +7,13 @@
 layout (location = 0) in vec2 vPosition;
 
 
-uniform float x0;
-uniform float x1;
-uniform float y0;
-uniform float y1;
-uniform float maxiter;
+uniform parameters {
+	float x0;
+	float x1;
+	float y0;
+	float y1;
+	float maxiter;
+};
 
 out vec4 color;
 

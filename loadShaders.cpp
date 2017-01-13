@@ -53,7 +53,7 @@ GLuint loadShaders(ShaderInfo* shaders) {
 
 		const GLchar* source = ReadShader(entry->filename);
 
-		printf ("Leido: \n%s\n", source);
+		// printf ("Leido: \n%s\n", source);
 
 		if (source == NULL ) {
 			for (entry = shaders; entry->type != GL_NONE; entry++) {
@@ -70,6 +70,7 @@ GLuint loadShaders(ShaderInfo* shaders) {
 
 		GLint compiled;
 		glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
+
 		if (!compiled) {
 			GLsizei len;
 			glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &len);
@@ -77,6 +78,12 @@ GLuint loadShaders(ShaderInfo* shaders) {
 			glGetShaderInfoLog(shader, len, &len, log);
 			fprintf (stderr, "Shader compilation failed:\n%s\n", log);
 			return 0;
+		} else {
+			GLsizei len;
+			glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &len);
+			GLchar log[len+1];
+			glGetShaderInfoLog(shader, len, &len, log);
+			fprintf (stderr, "Log:\n%s\n", log);
 		}
 
 		glAttachShader(program, shader);
