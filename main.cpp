@@ -6,24 +6,6 @@
 #include <fractal.hpp>
 
 
-GLuint vao;
-GLuint program;
-GLuint buffer;
-GLuint parBuffer;
-
-int nrow = 1920;
-int ncol = 1080;
-int npoint;
-
-
-
-float x0 = -1.82;
-float x1 = -1.54;
-float y0 = -0.03;
-float y1 = 0.1;
-float maxiter = 120.0;
-
-
 Fractal fractal;
 
 void renderFunction() {
