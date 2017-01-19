@@ -39,9 +39,6 @@ public:
 
 	void init () {
 		int npoint = nrow * ncol;
-		// glPointSize (3);
-		glClearColor (0.0f, 0.0f, 0.0f, 0.0f);
-
 
 		ShaderInfo shaders[] = {
 			{GL_VERTEX_SHADER, "shaders/burningShip.vs.glsl"},
@@ -79,13 +76,11 @@ public:
 		delete [] p;
 	}
 	void render () {
+		glUseProgram(program);
+		glBindVertexArray(vao);
+		glBindBuffer (GL_ARRAY_BUFFER, vetexBuffer);
 		int npoint = nrow * ncol;
-		glClear (GL_COLOR_BUFFER_BIT);
 		glDrawArrays(GL_POINTS, 0, npoint);
-		glFlush ();
-		std::cout << "vao = "  << vao << std::endl;
-		std::cout << "buffer = "  << vetexBuffer << std::endl;
-		std::cout << "npoint = "  << npoint << std::endl;
 	}
 
 

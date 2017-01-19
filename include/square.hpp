@@ -4,6 +4,7 @@
 #include <GL/gl.h>
 
 class Square {
+public:
   float p[8];
 
 	GLuint program, vao, vetexBuffer, blockBuffer;
@@ -19,6 +20,17 @@ class Square {
     p[7] = xy1[1];
   }
 
+  Square (float x0, float y0, float x1, float y1) {
+    p[0] = x0;
+    p[1] = y0;
+    p[2] = x1;
+    p[3] = y0;
+    p[4] = x1;
+    p[5] = y1;
+    p[6] = x0;
+    p[7] = y1;
+  }
+
 	void init () {
 		ShaderInfo shaders[] = {
 			{GL_VERTEX_SHADER, "shaders/default.vs.glsl"},
@@ -27,45 +39,42 @@ class Square {
 		program = loadShaders (shaders);
 		glUseProgram(program);
 
-		GLfloat *p = new GLfloat[2*npoint];
-		for (int i=0; i<nrow; ++i) for (int j=0; j<ncol; ++j) {
-			p[2*(ncol*i+j)] = (2.0*i)/((GLfloat) nrow)-1.0;
-			p[2*(ncol*i+j)+1] = (2.0*j)/((GLfloat) ncol)-1.0;
-		}
 		glGenVertexArrays (1, &vao);
 		glBindVertexArray (vao);
 
-
-		glGenBuffers (1, &blockBuffer);
-		glBindBuffer (GL_UNIFORM_BUFFER, blockBuffer);
-
-		glBufferData (GL_UNIFORM_BUFFER, npars*sizeof (GLfloat), pars, GL_STATIC_DRAW);
-		glBindBufferBase (GL_UNIFORM_BUFFER, glGetUniformBlockIndex (program, "parameters"), blockBuffer);
-
-
 		glGenBuffers (1, &vetexBuffer);
 		glBindBuffer (GL_ARRAY_BUFFER, vetexBuffer);
-		glBufferData (GL_ARRAY_BUFFER, npoint*2*sizeof (GLfloat), p, GL_STATIC_DRAW);
-
+		glBufferData (GL_ARRAY_BUFFER, 8*sizeof (GLfloat), p, GL_STATIC_DRAW);
 
 		glVertexAttribPointer (0, 2, GL_FLOAT, GL_FALSE, 0,
 					(const void*) 0);
 		glEnableVertexAttribArray (0);
-
-
-		delete [] p;
 	}
 
 	void render () {
-		int npoint = nrow * ncol;
-		glClear (GL_COLOR_BUFFER_BIT);
-		glDrawArrays(GL_POINTS, 0, npoint);
-		glFlush ();
-		std::cout << "vao = "  << vao << std::endl;
-		std::cout << "buffer = "  << vetexBuffer << std::endl;
-		std::cout << "npoint = "  << npoint << std::endl;
+    glUseProgram(program);
+		glBindVertexArray (vao);
+		glBindBuffer (GL_ARRAY_BUFFER, vetexBuffer);
+    glDrawArrays(GL_LINE_LOOP, 0, 4);
+
 	}
 
-}
+  void setXY0 (float x0, float y0) {
+		glBindVertexArray (vao);
+		glBindBuffer (GL_ARRAY_BUFFER, vetexBuffer);
+    p[0] = p[6] = x0;
+    p[1] = p[3] = y0;
+		glBufferData (GL_ARRAY_BUFFER, 8*sizeof (GLfloat), p, GL_STATIC_DRAW);
+  }
+
+  void setXY1 (float x1, float y1) {
+		glBindVertexArray (vao);
+		glBindBuffer (GL_ARRAY_BUFFER, vetexBuffer);
+    p[2] = p[4] = x1;
+    p[5] = p[7] = y1;
+		glBufferData (GL_ARRAY_BUFFER, 8*sizeof (GLfloat), p, GL_STATIC_DRAW);
+  }
+
+};
 
 #endif
