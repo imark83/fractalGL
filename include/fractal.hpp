@@ -36,6 +36,17 @@ public:
 	}
 
 
+	void reset () {
+		pars[0] = -1.82; 	// x0
+		pars[1] = -1.54; 	// x1
+		pars[2] = -0.03; 	// y0
+		pars[3] = 0.1;	 	// y1
+		pars[4] = 120.0; 	// maxiter
+
+		glBindBuffer (GL_UNIFORM_BUFFER, blockBuffer);
+		glBufferData (GL_UNIFORM_BUFFER, npars*sizeof (GLfloat), pars, GL_STATIC_DRAW);
+
+	}
 
 	void init () {
 		int npoint = nrow * ncol;
@@ -83,6 +94,40 @@ public:
 		glDrawArrays(GL_POINTS, 0, npoint);
 	}
 
+	void zoom (float x0, float y0, float x1, float y1) {
+		glBindBuffer (GL_UNIFORM_BUFFER, blockBuffer);
+		float width = pars[1] - pars[0];
+		float height = pars[3] - pars[2];
+
+
+		if (x0>x1) {
+			float aux = x1; x1 = x0; x0 = aux;
+		}
+
+		y0 = -y0; y1 = -y1;
+		if (y0>y1) {
+			float aux = y1; y1 = y0; y0 = aux;
+		}
+
+
+		std::cout << "y0 = " << pars[2] << ", height = " << height << std::endl;
+		std::cout << "y1 = " << pars[3] << ", height = " << height << std::endl;
+
+
+		pars[1] = pars[0] + (x1+1.0f)/2.0*width;
+		pars[0] += (x0+1.0f)/2.0*width;
+
+
+		pars[3] = pars[2] + (y1+1.0f)/2.0*height;
+		pars[2] += (y0+1.0f)/2.0*height;
+
+
+		std::cout << "y0 = " << pars[2] << ", height = " << height << std::endl;
+		std::cout << "y1 = " << pars[3] << ", height = " << height << std::endl;
+
+		glBufferData (GL_UNIFORM_BUFFER, npars*sizeof (GLfloat), pars, GL_STATIC_DRAW);
+
+	}
 
 };
 
