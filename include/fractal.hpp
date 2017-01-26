@@ -100,15 +100,6 @@ public:
 		float height = pars[3] - pars[2];
 
 
-		if (x0>x1) {
-			float aux = x1; x1 = x0; x0 = aux;
-		}
-
-		y0 = -y0; y1 = -y1;
-		if (y0>y1) {
-			float aux = y1; y1 = y0; y0 = aux;
-		}
-
 
 		std::cout << "y0 = " << pars[2] << ", height = " << height << std::endl;
 		std::cout << "y1 = " << pars[3] << ", height = " << height << std::endl;
@@ -118,12 +109,9 @@ public:
 		pars[0] += (x0+1.0f)/2.0*width;
 
 
-		pars[3] = pars[2] + (y1+1.0f)/2.0*height;
-		pars[2] += (y0+1.0f)/2.0*height;
+		pars[3] = pars[2] + (-y0+1.0f)/2.0*height;
+		pars[2] += (-y1+1.0f)/2.0*height;
 
-
-		std::cout << "y0 = " << pars[2] << ", height = " << height << std::endl;
-		std::cout << "y1 = " << pars[3] << ", height = " << height << std::endl;
 
 		glBufferData (GL_UNIFORM_BUFFER, npars*sizeof (GLfloat), pars, GL_STATIC_DRAW);
 

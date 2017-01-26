@@ -28,22 +28,23 @@ void init () {
 }
 
 void mouseClick(int button, int state, int x, int y) {
-	if (button != GLUT_LEFT_BUTTON) {
+	if (button == GLUT_RIGHT_BUTTON) {
 		fractal.reset();
 		fractal.render();
 		glFlush();
 		return;
 	}
+
+	float xx = (2.0*x)/windowSize.x-1.0f;
+	float yy = 1.0-(2.0*y)/windowSize.y;
+
 	switch (state) {
 		case GLUT_DOWN:
-			square.setXY0 ((2.0f*x)/windowSize.x - 1.0f,
-		 				1.0f - (2.0f*y)/windowSize.y);
-			square.setXY1 ((2.0f*x)/windowSize.x - 1.0f,
-		 				1.0f - (2.0f*y)/windowSize.y);
+			square.setXY0 (xx, yy);
+			square.setXY1 (xx, yy);
 			break;
 		case GLUT_UP:
-			square.setXY1 ((2.0f*x)/windowSize.x - 1.0f,
-		 				1.0f - (2.0f*y)/windowSize.y);
+			square.setXY1 (xx, yy);
 			fractal.zoom (square.getX0(), square.getY0(),
 						square.getX1(), square.getY1());
 			break;

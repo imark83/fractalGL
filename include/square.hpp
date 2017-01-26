@@ -76,19 +76,19 @@ public:
 	}
 
 	float getX0 () {
-		return p[0];
+		return (p[0]<p[2]) ? p[0] : p[1];
 	}
 
 	float getX1 () {
-		return p[2];
+		return (p[0]>p[2]) ? p[0] : p[1];
 	}
 
 	float getY0 () {
-		return p[1];
+		return (p[1]<p[7]) ? p[1] : p[7];
 	}
 
 	float getY1 () {
-		return p[7];
+		return (p[1]>p[7]) ? p[1] : p[7];
 	}
 
 };
